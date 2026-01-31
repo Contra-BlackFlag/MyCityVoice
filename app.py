@@ -1,23 +1,54 @@
-from flask import Flask
+from flask import Flask, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from flask import render_template
 from datetime import datetime
 
 
 app = Flask(__name__)
-app.config["SQLACHEMY_DATABASE_URI"] = "sqlite:///MyCityVoice.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///MyCityVoice.db"
+
 db = SQLAlchemy(app=app)
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String(15), nullable = False)
     password = db.Column(db.String(15), nullable = False)
     date_of_login = db.Column(db.DateTime,default = datetime.utcnow)
+    def __repr__(self)->str:
+        return f"{self.user_name}"
       
 
+@app.route("/testing")
+def testing():
+    return render_template('testing.html')
 
-@app.route("/")
-def Login():
-    return render_template("Login.html")
+@app.route("/sign_up", methods = ["POST","GET"])
+def signup():
+    if request.method == "POST":
+        current_username = request.form["username"]
+        current_password = request.form["password"]
 
-if __name__ in "__main__":
+        new_user = User(
+            user_name=current_username,
+            password=current_password
+        )
+
+        try:
+            db.session.add(new_user)
+            db.session.commit()
+            return redirect("/testing")
+        except Exception as e:
+            print(e)
+            return "Database error", 500
+
+    return render_template("signup.html")
+
+
+@app.route("/", methods = ["GET"])
+def login():
+    return render_template("login.html")
+
+if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
