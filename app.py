@@ -8,48 +8,46 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///MyCityVoice.db"
 
 db = SQLAlchemy(app=app)
-
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_name = db.Column(db.String(15), nullable = False, unique = True)
-    password = db.Column(db.String(15), nullable = False)
-    date_of_login = db.Column(db.DateTime,default = datetime.utcnow)
-    complaints = db.relationship("complaint", backref = "user", lazy = True)
-    def __repr__(self)->str:
-        return f"{self.user_name}"
+    user_name = db.Column(db.String(50), nullable=False, unique=True)
+    password = db.Column(db.String(255), nullable=False)
+    date_of_login = db.Column(db.DateTime, default=datetime.utcnow)
 
-class complaint(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    title = db.Column(db.String(50), nullable = False)
-    description = db.Column(db.String(200), nullable = False)
-    time_of_creation = db.Column(db.DateTime, default = datetime.date)
-    
-    user_id = db.Column(
-        db.Integer,
-        db.ForeignKey("user.id"),
-        nullable = False
-    )
-    images = db.relationship("complaintImage", backref = "complaint", lazy = True)
-    location = db.relationship("Location", backref = "complaint", uselist =True)
+    complaints = db.relationship("Complaint", backref="user", lazy=True)
 
-class location(db.Model):
+
+class Complaint(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(200), nullable=False)
+    time_of_creation = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+
+    images = db.relationship("ComplaintImages", backref="complaint", lazy=True)
+    location = db.relationship("Location", backref="complaint", uselist=False)
+
+
+class Location(db.Model):
     complaint_id = db.Column(
         db.Integer,
         db.ForeignKey("complaint.id"),
-        primary_key = True
+        primary_key=True
     )
-    latitude = db.Column(db.Float, nullable = False)
-    longitute = db.Column(db.Float, nullable = False)
+    latitude = db.Column(db.Float, nullable=False)
+    longitude = db.Column(db.Float, nullable=False)
+
 
 class ComplaintImages(db.Model):
-     id = db.Column(db.Integer, primary_key=True)
-     image_path = db.Column(db.String(255), nullable=False)
-
-     complaint_id = db.Column(
+    id = db.Column(db.Integer, primary_key=True)
+    image_path = db.Column(db.String(255), nullable=False)
+    complaint_id = db.Column(
         db.Integer,
         db.ForeignKey("complaint.id"),
         nullable=False
-     )
+    )
+
 
 
 @app.route("/testing")
@@ -80,6 +78,10 @@ def signup():
 
 @app.route("/", methods = ["GET"])
 def login():
+    if request.method == "GET":
+        user = User.query.get(id)
+        return render_template('feed.html')
+           
     return render_template("login.html")
 
 if __name__ == "__main__":
