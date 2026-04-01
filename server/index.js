@@ -17,7 +17,7 @@ const PORT       = process.env.PORT || 5000;
 // ✅ Allowed origins (local + production)
 const allowedOrigins = [
   "http://localhost:5173",
-  process.env.CLIENT_URL // from Render env
+  "https://my-city-voice.vercel.app" // from Render env
 ];
 
 // ✅ Socket.io CORS
