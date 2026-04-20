@@ -1,16 +1,18 @@
 import axios from "axios";
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL
-    ? `${import.meta.env.VITE_API_URL}/api`
-    : "/api",
-  timeout: 30000,
-});
+
+const api = axios.create({ baseURL: "/api", timeout: 30000 });
+
 api.interceptors.request.use(config => {
   const token = localStorage.getItem("cp_token");
   if (token) config.headers["Authorization"] = `Bearer ${token}`;
   return config;
 });
-api.interceptors.response.use(r=>r.data, e=>Promise.reject(new Error(e.response?.data?.error||e.message)));
+
+api.interceptors.response.use(
+  r => r.data,
+  e => Promise.reject(new Error(e.response?.data?.error || e.message))
+);
+
 export default api;
 
 export const authApi = {
