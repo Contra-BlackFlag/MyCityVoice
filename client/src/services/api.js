@@ -2,7 +2,7 @@ import axios from "axios";
 
 const BACKEND = window.location.hostname === "localhost"
   ? "http://localhost:5000"
-  : "https://civicpulse-api-ej70.onrender.com/api/health";
+  : "https://civicpulse-api-ej70.onrender.com";
 
 const api = axios.create({ baseURL: `${BACKEND}/api`, timeout: 30000 });
 

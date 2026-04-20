@@ -3,7 +3,7 @@ import {io} from "socket.io-client";
 const Ctx=createContext(null);
 const URL = window.location.hostname === "localhost"
   ? "http://localhost:5000"
-  : "https://civicpulse-api-ej70.onrender.com/api/health";
+  : "https://civicpulse-api-ej70.onrender.com";
     export function SocketProvider({children}){
   const [socket,setSocket]=useState(null);
   const [connected,setConnected]=useState(false);
