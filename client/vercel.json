@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://mycityvoice.onrender.com/api/:path*"
+      "destination": "https://civicpulse-api-ej70.onrender.com/:path*"
     },
     {
       "source": "/uploads/:path*",
