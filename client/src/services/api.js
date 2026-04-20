@@ -1,6 +1,10 @@
 import axios from "axios";
 
-const api = axios.create({ baseURL: "/api", timeout: 30000 });
+const BACKEND = window.location.hostname === "localhost"
+  ? "http://localhost:5000"
+  : "https://civicpulse-api-ej70.onrender.com/api/health";
+
+const api = axios.create({ baseURL: `${BACKEND}/api`, timeout: 30000 });
 
 api.interceptors.request.use(config => {
   const token = localStorage.getItem("cp_token");
