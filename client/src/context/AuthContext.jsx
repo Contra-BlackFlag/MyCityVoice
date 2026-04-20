@@ -9,7 +9,7 @@ export function AuthProvider({children}){
     if(!token){setLoading(false);return;}
     axios.defaults.headers.common["Authorization"]=`Bearer ${token}`;
     axios.get("/api/auth/me")
-      .then(res=>setUser(res.data.user))
+      .then(r=>setUser(r.data.user))
       .catch(()=>{localStorage.removeItem("cp_token");delete axios.defaults.headers.common["Authorization"];})
       .finally(()=>setLoading(false));
   },[]);

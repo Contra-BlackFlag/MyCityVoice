@@ -9,8 +9,7 @@ export function SocketProvider({children}){
     const s=io(URL,{transports:["websocket","polling"]});
     s.on("connect",()=>setConnected(true));
     s.on("disconnect",()=>setConnected(false));
-    setSocket(s);
-    return ()=>s.disconnect();
+    setSocket(s);return()=>s.disconnect();
   },[]);
   return <Ctx.Provider value={{socket,connected}}>{children}</Ctx.Provider>;
 }

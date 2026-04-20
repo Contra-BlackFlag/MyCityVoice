@@ -8,11 +8,15 @@ const UserIco  =({a})=><svg width="22" height="22" viewBox="0 0 24 24" fill={a?"
 export default function BottomNav({onCreateClick}){
   return(
     <nav className="bnav">
-      <NavLink to="/" end className={({isActive})=>`bnav-item ${isActive?"active":""}`}>{({isActive})=><><HomeIco a={isActive}/><span>Feed</span></>}</NavLink>
-      <NavLink to="/map" className={({isActive})=>`bnav-item ${isActive?"active":""}`}>{({isActive})=><><MapIco a={isActive}/><span>Map</span></>}</NavLink>
-      <button className="bnav-create" onClick={onCreateClick}><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
-      <NavLink to="/leaderboard" className={({isActive})=>`bnav-item ${isActive?"active":""}`}>{({isActive})=><><TrophyIco a={isActive}/><span>Ranks</span></>}</NavLink>
-      <NavLink to="/profile" className={({isActive})=>`bnav-item ${isActive?"active":""}`}>{({isActive})=><><UserIco a={isActive}/><span>Me</span></>}</NavLink>
+      <div className="bnav-inner">
+        <NavLink to="/" end className={({isActive})=>`bnav-item ${isActive?"active":""}`}>{({isActive})=><><HomeIco a={isActive}/><span>Feed</span></>}</NavLink>
+        <NavLink to="/map" className={({isActive})=>`bnav-item ${isActive?"active":""}`}>{({isActive})=><><MapIco a={isActive}/><span>Map</span></>}</NavLink>
+        <button className="bnav-create" onClick={onCreateClick} aria-label="Report issue">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <NavLink to="/leaderboard" className={({isActive})=>`bnav-item ${isActive?"active":""}`}>{({isActive})=><><TrophyIco a={isActive}/><span>Ranks</span></>}</NavLink>
+        <NavLink to="/profile" className={({isActive})=>`bnav-item ${isActive?"active":""}`}>{({isActive})=><><UserIco a={isActive}/><span>Me</span></>}</NavLink>
+      </div>
     </nav>
   );
 }

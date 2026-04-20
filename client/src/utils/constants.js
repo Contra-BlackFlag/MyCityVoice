@@ -13,13 +13,16 @@ export const STATUSES = [
   { value:"in_progress", label:"In Progress", color:"#fbbf24" },
   { value:"resolved",    label:"Resolved",    color:"#34d399" },
 ];
-export const getCat    = v => CATEGORIES.find(c => c.value===v) || CATEGORIES.at(-1);
-export const getStatus = v => STATUSES.find(s => s.value===v)   || STATUSES[0];
+export const getCat    = v => CATEGORIES.find(c=>c.value===v)||CATEGORIES.at(-1);
+export const getStatus = v => STATUSES.find(s=>s.value===v)||STATUSES[0];
 export const timeAgo   = d => {
-  const s = Math.floor((Date.now() - new Date(d)) / 1000);
-  if (s < 60) return "just now";
-  if (s < 3600) return `${Math.floor(s/60)}m ago`;
-  if (s < 86400) return `${Math.floor(s/3600)}h ago`;
-  if (s < 604800) return `${Math.floor(s/86400)}d ago`;
+  const s=Math.floor((Date.now()-new Date(d))/1000);
+  if(s<60)return"just now";
+  if(s<3600)return`${Math.floor(s/60)}m ago`;
+  if(s<86400)return`${Math.floor(s/3600)}h ago`;
+  if(s<604800)return`${Math.floor(s/86400)}d ago`;
   return new Date(d).toLocaleDateString("en-IN",{day:"numeric",month:"short"});
 };
+// Maharashtra bounds for map centering
+export const MAHARASHTRA_CENTER = [19.7515, 75.7139];
+export const MAHARASHTRA_ZOOM = 7;
