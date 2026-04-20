@@ -17,7 +17,25 @@ const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 const io = new Server(httpServer, { cors:{ origin:CLIENT_URL, methods:["GET","POST"] } });
 app.locals.io = io;
 
-app.use(cors({ origin:CLIENT_URL, methods:["GET","POST","PATCH","DELETE","PUT"] }));
+// Replace the existing cors line with this:
+app.use(cors({
+  origin: (origin, callback) => {
+    const allowed = [
+      process.env.CLIENT_URL,
+      "http://localhost:5173",
+      "http://localhost:3000",
+    ].filter(Boolean);
+    // Allow requests with no origin (mobile apps, Postman, etc)
+    if (!origin || allowed.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log("[CORS] Blocked origin:", origin);
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET","POST","PATCH","DELETE","PUT"],
+  credentials: true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended:true }));
 app.use("/uploads", express.static(path.join(__dirname,"uploads")));
