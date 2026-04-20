@@ -28,11 +28,13 @@ app.use("/api/admin",   adminRouter);
 app.get("/api/health",  (_,res) => res.json({ status:"ok" }));
 
 // Serve React in production
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname,"../client/dist")));
-  app.get("*", (req,res) => {
+// Serve React in production (only if dist folder exists)
+const distPath = path.join(__dirname, "../client/dist");
+if (process.env.NODE_ENV === "production" && require("fs").existsSync(distPath)) {
+  app.use(express.static(distPath));
+  app.get("*", (req, res) => {
     if (!req.path.startsWith("/api") && !req.path.startsWith("/uploads"))
-      res.sendFile(path.join(__dirname,"../client/dist/index.html"));
+      res.sendFile(path.join(distPath, "index.html"));
   });
 }
 
