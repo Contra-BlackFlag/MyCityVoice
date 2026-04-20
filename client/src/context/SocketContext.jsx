@@ -1,8 +1,11 @@
 import React,{createContext,useContext,useEffect,useState} from "react";
 import {io} from "socket.io-client";
 const Ctx=createContext(null);
-const URL=window.location.hostname==="localhost"?"http://localhost:5000":window.location.origin;
-export function SocketProvider({children}){
+const URL = import.meta.env.VITE_API_URL ||
+  (window.location.hostname === "localhost"
+    ? "http://localhost:5000"
+    : window.location.origin);
+    export function SocketProvider({children}){
   const [socket,setSocket]=useState(null);
   const [connected,setConnected]=useState(false);
   useEffect(()=>{
